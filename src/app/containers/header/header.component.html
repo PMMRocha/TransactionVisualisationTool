@@ -1,0 +1,11 @@
+<section class="container">
+
+  <div>
+    <span>Logo</span>
+  </div>
+
+  <app-expansible-menu [menus]="menus"
+                       (listItemSelected)="updateCurrentDate($event)">
+  </app-expansible-menu>
+
+</section>

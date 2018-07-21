@@ -1,0 +1,61 @@
+section.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(243, 242, 242);
+    article {
+        position: relative;
+        width: 40%;
+        height: 80%;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .5);
+        overflow: hidden;
+        .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1em;
+            color: white;
+            z-index: 1;
+            .actions {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                justify-content: space-between;
+                button {
+                    color: #e81d62;
+                    border: 2px solid #e81d62;
+                    font-weight: bold;
+                }
+            }
+        }
+        .card-background {
+            width: 120%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .top {
+            background: #e81d62;
+            top: -50%;
+            left: -30%;
+            transform: rotate(-19deg);
+        }
+        .bottom {
+            background: #e81d62;
+            top: -63%;
+            left: 2%;
+            transform: rotate(15deg);
+        }
+    }
+}
+

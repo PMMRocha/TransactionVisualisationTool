@@ -1,0 +1,48 @@
+<section *ngIf="(transactionsDates$ | async).loading === false" class="container">
+
+
+
+  <article>
+
+
+    <div class="content">
+
+      <header>
+        <h1>Spend transactions by EPSRC</h1>
+        <h3>Engineering and Physical Sciences Research Council</h3>
+      </header>
+
+      <div class="actions">
+
+        <mat-form-field *ngFor="let transDate of (transactionsDates$ | async).data">
+          <mat-select placeholder="{{ transDate.name }}">
+            <mat-option *ngFor="let submenu of transDate.list"
+                        [value]="submenu.name"
+                        (onSelectionChange)="dateSelected[transDate.name.toLocaleLowerCase()] = submenu.key">
+              {{ submenu.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-button (click)="submitDate()">VIEW TRANSACTIONS</button>
+
+      </div>
+
+    </div>
+
+
+    <div class="card-background top"></div>
+    <div class="card-background bottom"></div>
+
+
+  </article>
+
+
+
+</section>
+
+
+
+
+<!-- LOADING SPINNER -->
+<app-loading-spinner *ngIf="(transactionsDates$ | async).loading === true"></app-loading-spinner>

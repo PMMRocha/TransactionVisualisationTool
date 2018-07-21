@@ -1,0 +1,28 @@
+<section class="container">
+
+  <!-- <mat-accordion> -->
+
+  <mat-expansion-panel *ngFor="let menu of menus">
+
+    <mat-expansion-panel-header>
+
+      <mat-panel-title>{{ menu.name }}</mat-panel-title>
+
+    </mat-expansion-panel-header>
+
+    <!-- content list -->
+    <mat-list role="list">
+      <mat-list-item *ngFor="let submenu of menu.submenus"
+                      (click)="listItemSelected.emit(submenu.key)">
+        {{ submenu.name }}
+      </mat-list-item>
+    </mat-list>
+
+
+
+  </mat-expansion-panel>
+
+  <!-- </mat-accordion> -->
+
+
+</section>
