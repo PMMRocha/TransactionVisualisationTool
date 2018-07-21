@@ -1,3 +1,4 @@
+import { TransactionGuard } from './guards/transaction.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './containers/home/home.component';
@@ -20,7 +21,8 @@ const routes: Routes = [
     children: [
       {
         path: ':year/:month/:day',
-        component: ChartVisualisationComponent
+        component: ChartVisualisationComponent,
+        canActivate: [ TransactionGuard ]
       }
     ]
   }

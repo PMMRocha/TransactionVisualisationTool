@@ -1,7 +1,6 @@
 import { LoadTransactionsDates } from './store/actions/transactions.actions';
 import { AfterViewInit, ChangeDetectionStrategy, Component } from "@angular/core";
 import { Store } from '@ngxs/store';
-import * as Chart from "chart.js";
 import { map } from "rxjs/operators";
 import * as XLSX from "xlsx";
 import { TransactionsService } from "./services/transactions.service";
@@ -20,8 +19,7 @@ export class AppComponent implements AfterViewInit {
   transactionsChart: Chart;
 
   constructor(
-    private store: Store,
-    private transactionsService: TransactionsService
+    private store: Store
   ) {
     this.store.dispatch(new LoadTransactionsDates());
   }
@@ -32,8 +30,6 @@ export class AppComponent implements AfterViewInit {
     // this.canvas.height = window.innerHeight;
     // this.ctx = this.canvas.getContext("2d");
     let myChart;
-    this.transactionsService.getTransaction('dec', '2016')
-    .pipe(map(this.convertToJson));
     // myChart = new Chart(this.ctx, {
     //   type: "bar",
     //   data: {
@@ -127,23 +123,9 @@ export class AppComponent implements AfterViewInit {
     //     };
     //     reader.readAsBinaryString(excelFile);
     //   });
-  }
 
-  convertToJson(excelFile: Blob) {
-    const reader: FileReader = new FileReader();
-    reader.readAsBinaryString(excelFile);
-    reader.onload = (e: any) => {
-      /* read workbook */
-      const bstr: string = e.target.result;
-      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: "binary" });
 
-      /* grab first sheet */
-      const wsname: string = wb.SheetNames[0];
-      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      /* save data */
-      this.data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-    };
   }
 
   // onFileChange(evt?: any) {

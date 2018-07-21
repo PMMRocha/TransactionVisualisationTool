@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import * as Chart from "chart.js";
+import { TransactionsService } from '../../services/transactions.service';
+import { map, tap } from 'rxjs/operators';
+import * as XLSX from "xlsx";
 
 @Component({
   selector: 'app-chart-visualisation',
@@ -6,10 +10,67 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chart-visualisation.component.scss']
 })
 export class ChartVisualisationComponent implements OnInit {
+  @ViewChild("canvas") private canvasRef: ElementRef;
+  public transactionsChart: Chart;
+  canvas;
+  ctx;
+  data = [];
 
-  constructor() { }
+  constructor(private transactionsService: TransactionsService) { }
 
   ngOnInit() {
+    this.transactionsService.getTransaction('dec', '2016')
+    .pipe(map(this.convertToJson), tap(x => console.log(x)));
+  }
+
+  ngAfterViewInit() {
+    this.canvas = this.canvasRef.nativeElement;
+    // this.canvas = document.getElementById("myChart");
+    this.canvas.width = window.innerWidth - 200;
+    this.canvas.height = window.innerHeight - 100;
+
+
+    this.ctx = this.canvas.getContext("2d");
+    let myChart = new Chart(this.ctx, {
+      type: "bar",
+      data: {
+        labels: ["New", "In Progress", "On Hold"],
+        // labels: this.data[0],
+        datasets: [
+          {
+            label: "# of Votes",
+            // data: this.data[1],
+            data: [1, 2, 3],
+            backgroundColor: [
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)"
+            ],
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: false
+      }
+    });
+  }
+
+  convertToJson(excelFile: Blob) {
+    const reader: FileReader = new FileReader();
+    reader.readAsBinaryString(excelFile);
+    reader.onload = (e: any) => {
+      /* read workbook */
+      const bstr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: "binary" });
+
+      /* grab first sheet */
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+      /* save data */
+      this.data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+    };
   }
 
 }

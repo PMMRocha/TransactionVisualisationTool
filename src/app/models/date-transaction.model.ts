@@ -9,13 +9,11 @@ export interface DateTransactionList {
 }
 
 export class TransactionDate {
-  private _year: string;
-  private _month: string;
-  private _day: string;
-
-  constructor() {
-    this.resetDates();
-  }
+  constructor(
+    private _year: string = null,
+    private _month: string = null,
+    private _day: string = null
+  ) {}
 
   // getters
   get year() { return this._year; }

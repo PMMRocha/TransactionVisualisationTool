@@ -2,9 +2,10 @@ import { TransactionsService } from "./../../services/transactions.service";
 import {
   LoadTransactionsDates,
   LoadTransactionsDatesSuccess,
-  LoadTransactionsDatesFail
+  LoadTransactionsDatesFail,
+  UpdateCurrentTransactionDate
 } from "./../actions/transactions.actions";
-import { TransactionDatesData } from "./../../models/date-transaction.model";
+import { TransactionDatesData, TransactionDate } from "./../../models/date-transaction.model";
 import { State, Action, StateContext, Selector } from "@ngxs/store";
 import { map, catchError, tap } from "rxjs/operators";
 
@@ -16,12 +17,14 @@ export interface TransactionsDatesStateModel {
   loading: boolean;
   failed: boolean;
   data: TransactionDatesData[];
+  currentDate: TransactionDate;
 }
 
 const TransactionsDatesDefaultState: TransactionsDatesStateModel = {
   loading: false,
   failed: false,
-  data: []
+  data: [],
+  currentDate: null
 };
 
 @State<TransactionsStateModel>({
@@ -32,6 +35,7 @@ const TransactionsDatesDefaultState: TransactionsDatesStateModel = {
 })
 export class TransactionsState {
   @Selector() static TransactionsDates(state: TransactionsStateModel): TransactionsDatesStateModel { return state.dates }
+  @Selector() static CurrentTransactionDate(state: TransactionsStateModel): TransactionDate { return state.dates.currentDate }
 
   constructor(private transactionsService: TransactionsService) {}
 
@@ -59,6 +63,19 @@ export class TransactionsState {
         data: payload,
         loading: false,
         failed: false
+      }
+    });
+  }
+
+  @Action(UpdateCurrentTransactionDate)
+  UpdateCurrentTransactionDate(
+    { getState, patchState }: StateContext<TransactionsStateModel>,
+    { payload }: UpdateCurrentTransactionDate
+  ) {
+    patchState({
+      dates: {
+        ...getState().dates,
+        currentDate: payload
       }
     });
   }

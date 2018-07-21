@@ -1,11 +1,18 @@
 <section class="container">
 
-  <div>
+  <div (click)="goHome()">
     <span>Logo</span>
   </div>
 
-  <app-expansible-menu [menus]="menus"
-                       (listItemSelected)="updateCurrentDate($event)">
-  </app-expansible-menu>
+  <div class="menu-container" *ngIf="(menus$ | async); let menu">
+    <div class="menu-inner-container">
+
+      <app-expansible-menu [menus]="menu.data"
+                           [currentTransaction]="menu.currentDate"
+                           (listItemSelected)="updateCurrentDate(menu.currentDate, $event)">
+      </app-expansible-menu>
+
+    </div>
+  </div>
 
 </section>

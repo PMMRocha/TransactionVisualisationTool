@@ -4,7 +4,12 @@ section.container {
   mat-list-item {
     cursor: pointer;
     &:hover {
-      background: #e81d612c;
+      background: #f9f9f9;
     }
+  }
+  .selected {
+    color: #e81d62;
+    font-weight: bold;
+    border-bottom: 1px solid;
   }
 }
