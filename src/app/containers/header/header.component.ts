@@ -3,11 +3,11 @@ import { Select, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { TransactionDate } from "../../models/date-transaction.model";
 import { NavigateTo } from "../../store/actions/router.actions";
-import {
-  TransactionsDatesStateModel,
-  TransactionsState
-} from "../../store/state/transactions.state";
 import { NavigateToChartViewer } from "./../../store/actions/router.actions";
+import {
+  TransactionsDatesState,
+  TransactionsDatesStateModel
+} from "./../../store/state/dates.state";
 
 @Component({
   selector: "app-header",
@@ -16,7 +16,7 @@ import { NavigateToChartViewer } from "./../../store/actions/router.actions";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
-  @Select(TransactionsState.TransactionsDates)
+  @Select(TransactionsDatesState.TransactionsDates)
   public menus$: Observable<TransactionsDatesStateModel>;
 
   constructor(private store: Store) {}

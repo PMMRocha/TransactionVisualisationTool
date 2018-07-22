@@ -28,9 +28,9 @@ export class TransactionDate {
     return !Object.values(target).includes(null);
   }
 
-  public resetDates(): void {
-    this._year = null;
-    this._month = null;
-    this._day = null;
-  }
+  // public resetDates(): void {
+  //   this._year = null;
+  //   this._month = null;
+  //   this._day = null;
+  // }
 }

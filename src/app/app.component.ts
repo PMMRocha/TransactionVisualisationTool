@@ -1,4 +1,4 @@
-import { LoadTransactionsDates } from './store/actions/transactions.actions';
+import { LoadTransactionsDates } from './store/actions/dates.actions';
 import { AfterViewInit, ChangeDetectionStrategy, Component } from "@angular/core";
 import { Store } from '@ngxs/store';
 import { map } from "rxjs/operators";
@@ -13,10 +13,10 @@ import { TransactionsService } from "./services/transactions.service";
 })
 export class AppComponent implements AfterViewInit {
   // @ViewChild("canvas") private canvasRef: ElementRef;
-  data = [];
-  canvas;
-  ctx;
-  transactionsChart: Chart;
+  // data = [];
+  // canvas;
+  // ctx;
+  // transactionsChart: Chart;
 
   constructor(
     private store: Store
@@ -29,7 +29,7 @@ export class AppComponent implements AfterViewInit {
     // this.canvas.width = window.innerWidth;
     // this.canvas.height = window.innerHeight;
     // this.ctx = this.canvas.getContext("2d");
-    let myChart;
+    // let myChart;
     // myChart = new Chart(this.ctx, {
     //   type: "bar",
     //   data: {

@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import * as Chart from "chart.js";
-import { TransactionsService } from '../../services/transactions.service';
-import { map, tap } from 'rxjs/operators';
+import { fromEvent, Observable } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
 import * as XLSX from "xlsx";
+import { TransactionsService } from "../../services/transactions.service";
 
 @Component({
-  selector: 'app-chart-visualisation',
-  templateUrl: './chart-visualisation.component.html',
-  styleUrls: ['./chart-visualisation.component.scss']
+  selector: "app-chart-visualisation",
+  templateUrl: "./chart-visualisation.component.html",
+  styleUrls: ["./chart-visualisation.component.scss"]
 })
 export class ChartVisualisationComponent implements OnInit {
   @ViewChild("canvas") private canvasRef: ElementRef;
@@ -16,19 +17,20 @@ export class ChartVisualisationComponent implements OnInit {
   ctx;
   data = [];
 
-  constructor(private transactionsService: TransactionsService) { }
-
-  ngOnInit() {
-    this.transactionsService.getTransaction('dec', '2016')
-    .pipe(map(this.convertToJson), tap(x => console.log(x)));
+  constructor(private transactionsService: TransactionsService) {
+    this.transactionsService
+      .getTransaction("dec", "2016")
+      .pipe(switchMap(this.convertToJson))
+      .subscribe(x => console.log(x));
   }
+
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.canvas = this.canvasRef.nativeElement;
     // this.canvas = document.getElementById("myChart");
     this.canvas.width = window.innerWidth - 200;
     this.canvas.height = window.innerHeight - 100;
-
 
     this.ctx = this.canvas.getContext("2d");
     let myChart = new Chart(this.ctx, {
@@ -51,26 +53,26 @@ export class ChartVisualisationComponent implements OnInit {
         ]
       },
       options: {
-        responsive: false
+        responsive: true
       }
     });
   }
 
-  convertToJson(excelFile: Blob) {
+  private convertToJson(excelFile: Blob): Observable<any[]> {
     const reader: FileReader = new FileReader();
     reader.readAsBinaryString(excelFile);
-    reader.onload = (e: any) => {
-      /* read workbook */
-      const bstr: string = e.target.result;
-      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: "binary" });
+    return fromEvent(reader, "load").pipe(
+      map((e: any) => {
+        const bstr: string = e.target.result;
+        const wb: XLSX.WorkBook = XLSX.read(bstr, { type: "binary" });
 
-      /* grab first sheet */
-      const wsname: string = wb.SheetNames[0];
-      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+        /* grab first sheet */
+        const wsname: string = wb.SheetNames[0];
+        const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      /* save data */
-      this.data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-    };
+        /* save data */
+        return XLSX.utils.sheet_to_json(ws, { header: 1 });
+      })
+    );
   }
-
 }

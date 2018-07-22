@@ -1,10 +1,10 @@
-import { NavigateToChartViewer } from "./../../store/actions/router.actions";
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { Select, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { TransactionDate } from "../../models/date-transaction.model";
-import { TransactionsState } from "../../store/state/transactions.state";
-import { TransactionsDatesStateModel } from "./../../store/state/transactions.state";
+import { TransactionsDatesState } from "../../store/state/dates.state";
+import { NavigateToChartViewer } from "./../../store/actions/router.actions";
+import { TransactionsDatesStateModel } from "./../../store/state/dates.state";
 
 @Component({
   selector: "app-home",
@@ -13,7 +13,7 @@ import { TransactionsDatesStateModel } from "./../../store/state/transactions.st
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
-  @Select(TransactionsState.TransactionsDates)
+  @Select(TransactionsDatesState.TransactionsDates)
   public transactionsDates$: Observable<TransactionsDatesStateModel>;
   public dateSelected: TransactionDate = new TransactionDate();
 
