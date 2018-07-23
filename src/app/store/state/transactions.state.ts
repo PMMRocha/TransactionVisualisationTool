@@ -1,9 +1,11 @@
+import { ChartType } from './../../components/chart-canvas/chart-canvas.component';
 import { DaylyTransaction } from './../../models/date-transaction.model';
 import { State, Selector, Action, StateContext } from "@ngxs/store";
-import { LoadTransaction, LoadTransactionSuccess, UpdateCurrentTransaction } from "../actions/transactions.actions";
+import { LoadTransaction, LoadTransactionSuccess, UpdateCurrentTransaction, UpdateCurrentChartDisplay } from "../actions/transactions.actions";
 import { TransactionsService } from "../../services/transactions.service";
 import { switchMap, map, tap } from "rxjs/operators";
 import { convertToJson, transactionsArrayToMap } from "../../utils/transactions.utils";
+import * as Chart from "chart.js";
 
 export interface TransactionsStateModel {
   loading: boolean;
@@ -11,6 +13,8 @@ export interface TransactionsStateModel {
   failed: boolean;
   data: Map<string, DaylyTransaction>;
   currentTransaction: DaylyTransaction;
+  currentChartDisplay: ChartType;
+  transactionsChart: Chart;
 }
 
 const TransactionsDefaultState: TransactionsStateModel = {
@@ -18,7 +22,9 @@ const TransactionsDefaultState: TransactionsStateModel = {
   loaded: false,
   failed: false,
   data: new Map(),
-  currentTransaction: null
+  currentTransaction: null,
+  currentChartDisplay: ChartType.PIE,
+  transactionsChart: null
 };
 
 @State<TransactionsStateModel>({
@@ -65,7 +71,14 @@ export class TransactionsState {
     { getState, patchState }: StateContext<TransactionsStateModel>,
     { payload }: UpdateCurrentTransaction
   ): void {
-    console.log('C T ', getState().data.get(payload));
     patchState({ currentTransaction: getState().data.get(payload) });
+  }
+
+  @Action(UpdateCurrentChartDisplay)
+  UpdateCurrentChartDisplay(
+    { patchState }: StateContext<TransactionsStateModel>,
+    { payload }: UpdateCurrentChartDisplay
+  ): void {
+    patchState({ currentChartDisplay: payload });
   }
 }

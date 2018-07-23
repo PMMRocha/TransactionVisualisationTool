@@ -1,8 +1,24 @@
-<section class="container">
+<section *ngIf="(transaction$ | async)?.loaded" class="container">
 
-  <app-chart-canvas *ngIf="(transaction$ | async)?.loaded && (transaction$ | async)?.currentTransaction !== null"></app-chart-canvas>
+  <!-- Canvas -->
+  <app-chart-canvas *ngIf="(transaction$ | async)?.currentTransaction"
+                    [canvasData]="(transaction$ | async)?.currentTransaction.expenseType"
+                    [canvas2Data]="(transaction$ | async)?.currentTransaction.suppliers"
+                    [chartType]="(transaction$ | async)?.currentChartDisplay"
+                    [title]="(currentDate$ | async).mapKey()"
+                    [total]="(transaction$ | async)?.currentTransaction.total"
+                    (checkBoxClicked)=a($event)>
+  </app-chart-canvas>
 
-  <app-loading-spinner *ngIf="(transaction$ | async)?.loading || (transaction$ | async)?.currentTransaction === null"></app-loading-spinner>
+  <!-- Transaction not available -->
+  <div *ngIf="(transaction$ | async)?.currentTransaction === undefined">
+    Not available
+  </div>
 
 </section>
+
+
+
+<!-- Spinner -->
+<app-loading-spinner *ngIf="(transaction$ | async)?.loading"></app-loading-spinner>
 

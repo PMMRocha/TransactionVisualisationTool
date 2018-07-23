@@ -1,12 +1,51 @@
 <section class="container">
 
+
+
   <main>
-    <canvas id="myChart" #canvas width="100%" height="100%">
-      {{ transactionsChart }}
-    </canvas>
+
+    <div class="scrolable">
+
+      <canvas id="myChart" #canvas>
+        {{ transactionsChart }}
+      </canvas>
+
+      <canvas id="myChart2" #canvas2>
+        {{ transactionsChart2 }}
+      </canvas>
+
+    </div>
+
   </main>
 
-  <aside></aside>
+
+
+  <aside>
+
+
+    <article class="details">
+      <div class="title">{{ title }}</div>
+      <h1 class="total">
+        <strong>Total: </strong>{{ total | currency: 'GBP' }}
+      </h1>
+    </article>
+
+
+    <article>
+      <p>Chart type</p>
+      <mat-checkbox [checked]="chartType === ChartType.BAR"
+                    (change)="onTypechanged(ChartType.BAR)">
+        Bar
+      </mat-checkbox>
+      <mat-checkbox [checked]="chartType === ChartType.PIE"
+                    (change)="onTypechanged(ChartType.PIE)">
+        Pie
+      </mat-checkbox>
+    </article>
+
+
+  </aside>
+
 
 
 </section>
