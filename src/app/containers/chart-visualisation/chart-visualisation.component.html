@@ -1,8 +1,8 @@
 <section class="container">
 
-  <canvas id="myChart" #canvas width="100%" height="100%">
-    {{ transactionsChart }}
-  </canvas>
+  <app-chart-canvas *ngIf="(transaction$ | async)?.loaded && (transaction$ | async)?.currentTransaction !== null"></app-chart-canvas>
 
+  <app-loading-spinner *ngIf="(transaction$ | async)?.loading || (transaction$ | async)?.currentTransaction === null"></app-loading-spinner>
 
 </section>
+

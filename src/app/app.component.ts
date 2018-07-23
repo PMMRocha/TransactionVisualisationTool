@@ -2,7 +2,7 @@ import { LoadTransactionsDates } from './store/actions/dates.actions';
 import { AfterViewInit, ChangeDetectionStrategy, Component } from "@angular/core";
 import { Store } from '@ngxs/store';
 import { map } from "rxjs/operators";
-import * as XLSX from "xlsx";
+import * as XLSX from "xlsx/types";
 import { TransactionsService } from "./services/transactions.service";
 
 @Component({

@@ -15,7 +15,7 @@ export class TransactionsService {
 
   public getTransaction(month: string, year: string): Observable<any> {
     return this.http.get(
-      `../assets/db/2016/${month}_${year}.xlsx`,
+      `../assets/db/${year}/${month}_${year}.xlsx`,
       { responseType: "blob" }
     );
   }

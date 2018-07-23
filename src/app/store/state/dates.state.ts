@@ -1,14 +1,14 @@
-import { TransactionsService } from "./../../services/transactions.service";
+import { TransactionsService } from "../../services/transactions.service";
 import {
   LoadTransactionsDates,
   LoadTransactionsDatesSuccess,
   LoadTransactionsDatesFail,
   UpdateCurrentTransactionDate
-} from "./../actions/dates.actions";
+} from "../actions/dates.actions";
 import {
   TransactionDatesData,
   TransactionDate
-} from "./../../models/date-transaction.model";
+} from "../../models/date-transaction.model";
 import { State, Action, StateContext, Selector } from "@ngxs/store";
 import { map, catchError } from "rxjs/operators";
 

@@ -3,8 +3,8 @@ import { Select, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { TransactionDate } from "../../models/date-transaction.model";
 import { TransactionsDatesState } from "../../store/state/dates.state";
-import { NavigateToChartViewer } from "./../../store/actions/router.actions";
-import { TransactionsDatesStateModel } from "./../../store/state/dates.state";
+import { NavigateToChartViewer } from "../../store/actions/router.actions";
+import { TransactionsDatesStateModel } from "../../store/state/dates.state";
 
 @Component({
   selector: "app-home",

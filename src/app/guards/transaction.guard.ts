@@ -1,14 +1,25 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate } from "@angular/router";
-import { Store } from "@ngxs/store";
+import { Select, Store } from "@ngxs/store";
 import { Observable, of } from "rxjs";
-import { TransactionDate } from "../models/date-transaction.model";
+import { switchMap, take } from "rxjs/operators";
+import {
+  DaylyTransaction,
+  TransactionDate
+} from "../models/date-transaction.model";
 import { UpdateCurrentTransactionDate } from "../store/actions/dates.actions";
+import {
+  LoadTransaction,
+  UpdateCurrentTransaction
+} from "../store/actions/transactions.actions";
+import { TransactionsState } from "../store/state/transactions.state";
 
 @Injectable({
   providedIn: "root"
 })
 export class TransactionGuard implements CanActivate {
+  @Select(TransactionsState.Transactions)
+  private transaction$: Observable<Map<string, DaylyTransaction>>;
   constructor(private store: Store) {}
   canActivate(
     route: ActivatedRouteSnapshot
@@ -18,10 +29,28 @@ export class TransactionGuard implements CanActivate {
       route.paramMap.get("month"),
       route.paramMap.get("day")
     );
-    // check if trans exists - listen to current trans
-    // if not, Load Transaction by year and month
-    // if yes, update current trans
+    this.checkAllTransactions(currentDate.mapKey()).subscribe(
+      (hasTransaction: boolean) => {
+        if (hasTransaction) {
+          this.store.dispatch(
+            new UpdateCurrentTransaction(currentDate.mapKey())
+          );
+          return;
+        }
+        this.store.dispatch(new LoadTransaction(currentDate));
+      }
+    );
     this.store.dispatch(new UpdateCurrentTransactionDate(currentDate));
     return of(true);
+  }
+
+  private checkAllTransactions(key: string): any {
+    return this.transaction$.pipe(
+      switchMap(
+        (transaction: Map<string, DaylyTransaction>) =>
+          transaction.has(key) ? of(true) : of(false)
+      ),
+      take(1)
+    );
   }
 }

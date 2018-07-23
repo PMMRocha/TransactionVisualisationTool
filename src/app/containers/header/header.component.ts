@@ -3,11 +3,11 @@ import { Select, Store } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { TransactionDate } from "../../models/date-transaction.model";
 import { NavigateTo } from "../../store/actions/router.actions";
-import { NavigateToChartViewer } from "./../../store/actions/router.actions";
+import { NavigateToChartViewer } from "../../store/actions/router.actions";
 import {
   TransactionsDatesState,
   TransactionsDatesStateModel
-} from "./../../store/state/dates.state";
+} from "../../store/state/dates.state";
 
 @Component({
   selector: "app-header",

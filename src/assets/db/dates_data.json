@@ -5,10 +5,6 @@
       {
         "name": "2016",
         "key": "2016"
-      },
-      {
-        "name": "2017",
-        "key": "2017"
       }
     ]
   },
@@ -17,11 +13,11 @@
     "list": [
       {
         "name": "December",
-        "key": "dec"
+        "key": "12"
       },
       {
         "name": "October",
-        "key": "oct"
+        "key": "10"
       }
     ]
   },

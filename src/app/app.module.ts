@@ -20,6 +20,7 @@ import { HomeComponent } from "./containers/home/home.component";
 import { TransactionsService } from "./services/transactions.service";
 import { appStates } from "./store/state";
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { ChartCanvasComponent } from './components/chart-canvas/chart-canvas.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     ExpansibleMenuComponent,
     HeaderComponent,
     ChartVisualisationComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    ChartCanvasComponent
   ],
   imports: [
     BrowserModule,
