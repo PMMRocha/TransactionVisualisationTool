@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { Select, Store } from "@ngxs/store";
-import { Observable } from "rxjs";
-import { TransactionsState } from "../../store/state/transactions.state";
+import { ChartType } from './../../components/chart-canvas/chart-canvas.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { TransactionsState } from '../../store/state/transactions.state';
 import { TransactionsStateModel } from './../../store/state/transactions.state';
-import { TransactionsDatesState } from "../../store/state/dates.state";
-import { TransactionDate } from "../../models/date-transaction.model";
+import { TransactionsDatesState } from '../../store/state/dates.state';
+import { TransactionDate } from '../../models/date-transaction.model';
 import { UpdateCurrentChartDisplay } from '../../store/actions/transactions.actions';
 
 @Component({
-  selector: "app-chart-visualisation",
-  templateUrl: "./chart-visualisation.component.html",
-  styleUrls: ["./chart-visualisation.component.scss"],
+  selector: 'app-chart-visualisation',
+  templateUrl: './chart-visualisation.component.html',
+  styleUrls: ['./chart-visualisation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartVisualisationComponent {
@@ -19,7 +20,7 @@ export class ChartVisualisationComponent {
 
   constructor(private store: Store) {}
 
-  a(e) {
-    this.store.dispatch(new UpdateCurrentChartDisplay(e));
+  public onChartTypeChange(type: ChartType): void {
+    this.store.dispatch(new UpdateCurrentChartDisplay(type));
   }
 }

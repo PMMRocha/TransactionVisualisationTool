@@ -7,7 +7,7 @@
                     [chartType]="(transaction$ | async)?.currentChartDisplay"
                     [title]="(currentDate$ | async).mapKey()"
                     [total]="(transaction$ | async)?.currentTransaction.total"
-                    (checkBoxClicked)=a($event)>
+                    (checkBoxClicked)="onChartTypeChange($event)">
   </app-chart-canvas>
 
   <!-- Transaction not available -->
